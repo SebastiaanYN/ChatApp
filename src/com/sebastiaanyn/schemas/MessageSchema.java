@@ -1,7 +1,8 @@
 package com.sebastiaanyn.schemas;
 
-public class Message {
+public class MessageSchema {
     public String type;
     public String content;
     public String author;
+    public long id;
 }

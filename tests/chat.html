@@ -50,6 +50,7 @@
                 type: 'message',
                 content: event.target.value,
                 author: name,
+                id: 0,
             }));
             event.target.value = '';
         }
@@ -57,7 +58,10 @@
 
     const ws = new WebSocket('ws://localhost:4000/');
     ws.addEventListener('open', event => {
-        console.log(event);
+        ws.send(JSON.stringify({
+            type: 'subscribe',
+            id: 0,
+        }));
         createMessage('Connected');
     });
 
