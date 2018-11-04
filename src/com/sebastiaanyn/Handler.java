@@ -1,7 +1,7 @@
 package com.sebastiaanyn;
 
 import com.google.gson.*;
-import com.sebastiaanyn.managers.SubscribtionManager;
+import com.sebastiaanyn.managers.SubscriptionManager;
 import com.sebastiaanyn.schemas.*;
 import com.sebastiaanyn.server.eventhandler.events.TextMessageEvent;
 import io.netty.channel.Channel;
@@ -12,9 +12,9 @@ class Handler {
     private static final Gson GSON = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
 
-    private final SubscribtionManager<Channel> channels;
+    private final SubscriptionManager<Channel> channels;
 
-    Handler(SubscribtionManager<Channel> channels) {
+    Handler(SubscriptionManager<Channel> channels) {
         this.channels = channels;
     }
 

@@ -2,7 +2,7 @@ package com.sebastiaanyn;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.sebastiaanyn.managers.SubscribtionManager;
+import com.sebastiaanyn.managers.SubscriptionManager;
 import com.sebastiaanyn.server.WebSocketServer;
 import com.sebastiaanyn.server.eventhandler.events.ChannelDeleteEvent;
 import com.sebastiaanyn.server.eventhandler.events.TextMessageEvent;
@@ -12,7 +12,7 @@ public class Main {
 
     public static void main(String[] args) {
         WebSocketServer server = new WebSocketServer();
-        SubscribtionManager<Channel> channels = new SubscribtionManager<>();
+        SubscriptionManager<Channel> channels = new SubscriptionManager<>();
         Handler handler = new Handler(channels);
 
         server.on(TextMessageEvent.class, e -> {

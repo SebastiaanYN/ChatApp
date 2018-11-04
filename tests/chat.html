@@ -80,6 +80,8 @@
 <input id="message-input" placeholder="Message" type="text">
 
 <script>
+    const channelId = 0;
+
     let name;
     document.getElementById('username-input').addEventListener('keydown', event => {
         if (event.keyCode === 13) {
@@ -101,7 +103,7 @@
                 ws.send(JSON.stringify({
                     type: 'typing_start',
                     author: name,
-                    id: 0,
+                    id: channelId,
                 }));
                 isTyping = true;
             }
@@ -109,7 +111,7 @@
             ws.send(JSON.stringify({
                 type: 'typing_end',
                 author: name,
-                id: 0,
+                id: channelId,
             }));
             isTyping = false;
         }
@@ -121,7 +123,7 @@
                 type: 'message',
                 content: event.target.value,
                 author: name,
-                id: 0,
+                id: channelId,
             }));
             event.target.value = '';
         } else {
@@ -143,7 +145,7 @@
     ws.addEventListener('open', event => {
         ws.send(JSON.stringify({
             type: 'subscribe',
-            id: 0,
+            id: channelId,
         }));
 
         console.log(event);

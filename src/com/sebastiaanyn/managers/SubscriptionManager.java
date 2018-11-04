@@ -6,7 +6,7 @@ import com.google.common.collect.Multimap;
 import java.util.Collection;
 import java.util.List;
 
-public class SubscribtionManager<T> {
+public class SubscriptionManager<T> {
 
     private final Multimap<Long, T> channels = ArrayListMultimap.create();
 
@@ -29,7 +29,9 @@ public class SubscribtionManager<T> {
     }
 
     public void unsubscribe(T channel) {
-        channels.keySet().forEach(id -> unsubscribe(channel, id));
+        for (long id : channels.keySet()) {
+            unsubscribe(channel, id);
+        }
     }
 
     public Collection<T> getChannels(long id) {
