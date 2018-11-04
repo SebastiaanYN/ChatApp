@@ -34,6 +34,11 @@ public class Main {
                 case "message":
                     handler.handleMessage(json);
                     break;
+
+                case "typing_start":
+                case "typing_end":
+                    handler.handleTyping(e, json, type.getAsString());
+                    break;
             }
         });
 

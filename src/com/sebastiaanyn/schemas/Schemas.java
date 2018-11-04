@@ -8,9 +8,10 @@ public class Schemas {
     private static final Map<String, Class> schemas = new HashMap<>();
 
     static {
-        schemas.put("message", MessageSchema.class);
         schemas.put("subscribe", SubscribeSchema.class);
         schemas.put("unsubscribe", UnsubscribeSchema.class);
+        schemas.put("message", MessageSchema.class);
+        schemas.put("typing", TypingSchema.class);
     }
 
     @SuppressWarnings("unchecked")

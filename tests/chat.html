@@ -2,47 +2,118 @@
 <html lang="en">
 <head>
     <style>
+        :root {
+            --dark: #2C2F33;
+            --black: #23272A;
+        }
+
         * {
             color: #FFF;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            background-color: #2C2F33;
+            background-color: var(--dark);
             display: grid;
-            grid-template-rows: 1fr 50px;
-            margin: 0;
-            padding: 0 10px;
+        }
+
+        #username {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #username-input {
+            width: 500px;
+            height: 50px;
+            padding: 0 20px;
+            font-size: 1.2em;
+            outline: none;
+            color: var(--black);
         }
 
         #messages {
-            grid-row: 1;
-            height: calc(100vh - 100px);
+            height: 93vh;
             overflow-y: auto;
         }
 
         .message {
-            padding: 10px;
-            border-bottom: 1px solid #FFF;
+            padding: 10px 25px;
         }
 
-        input {
-            grid-row: 2;
-            margin-top: 25px;
-            height: 25px;
-            color: black;
+        .message:nth-child(odd) {
+            background-color: var(--black);
+        }
+
+        #typing {
+            height: 3vh;
+            line-height: 3vh;
+            padding: 0 20px;
+            background-color: var(--black);
+            border-radius: 15px 15px 0 0;
+            user-select: none;
+            cursor: default;
+        }
+
+        #message-input {
+            color: var(--black);
+            height: 4vh;
+            outline: none;
+            padding: 0 10px;
         }
     </style>
 </head>
 <body>
 
+<div id="username">
+    <input id="username-input" placeholder="Username" type="text">
+</div>
+
 <div id="messages"></div>
-<input placeholder="Message" type="text">
+<div id="typing"></div>
+<input id="message-input" placeholder="Message" type="text">
 
 <script>
-    const $messages = document.getElementById('messages');
-    const $input = document.getElementsByTagName('input')[0];
+    let name;
+    document.getElementById('username-input').addEventListener('keydown', event => {
+        if (event.keyCode === 13) {
+            name = event.target.value;
+            document.getElementById('username').style.display = 'none';
+            $input.focus();
+        }
+    });
 
-    const name = Math.floor(Math.random() * 10);
+    const $messages = document.getElementById('messages');
+    const $typing = document.getElementById('typing');
+    const $input = document.getElementById('message-input');
+
+    let typingStart;
+    let isTyping = false;
+    setInterval(() => {
+        if (typingStart && typingStart > new Date()) {
+            if (!isTyping) {
+                ws.send(JSON.stringify({
+                    type: 'typing_start',
+                    author: name,
+                    id: 0,
+                }));
+                isTyping = true;
+            }
+        } else if (isTyping) {
+            ws.send(JSON.stringify({
+                type: 'typing_end',
+                author: name,
+                id: 0,
+            }));
+            isTyping = false;
+        }
+    }, 100);
 
     $input.addEventListener('keydown', event => {
         if (event.keyCode === 13) {
@@ -53,8 +124,20 @@
                 id: 0,
             }));
             event.target.value = '';
+        } else {
+            typingStart = new Date(new Date().getTime() + 2000);
         }
     });
+
+    const typing = [];
+
+    function updateTyping() {
+        if (typing.length === 0) {
+            $typing.innerHTML = '';
+        } else {
+            $typing.innerHTML = `Typing: ${typing.join(', ')}`;
+        }
+    }
 
     const ws = new WebSocket('ws://localhost:4000/');
     ws.addEventListener('open', event => {
@@ -62,6 +145,8 @@
             type: 'subscribe',
             id: 0,
         }));
+
+        console.log(event);
         createMessage('Connected');
     });
 
@@ -77,8 +162,25 @@
 
     ws.addEventListener('message', event => {
         const data = JSON.parse(event.data);
-        createMessage(`${data.author}: ${data.content}`);
-        event.target.value = '';
+        if (!data.type) {
+            return;
+        }
+
+        switch (data.type.toLowerCase()) {
+            case 'message':
+                createMessage(`${data.author}: ${data.content}`);
+                break;
+
+            case 'typing_start':
+                typing.push(data.author);
+                updateTyping();
+                break;
+
+            case 'typing_end':
+                typing.splice(typing.indexOf(data.author), 1);
+                updateTyping();
+                break;
+        }
     });
 
     function createMessage(content) {
@@ -87,8 +189,6 @@
         div.innerHTML = content;
         $messages.appendChild(div);
     }
-
-    $input.focus();
 </script>
 
 </body>
