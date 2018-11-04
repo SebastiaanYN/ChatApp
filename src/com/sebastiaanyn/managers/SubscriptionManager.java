@@ -29,9 +29,7 @@ public class SubscriptionManager<T> {
     }
 
     public void unsubscribe(T channel) {
-        for (long id : channels.keySet()) {
-            unsubscribe(channel, id);
-        }
+        channels.values().removeIf(channel::equals);
     }
 
     public Collection<T> getChannels(long id) {
