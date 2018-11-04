@@ -3,6 +3,7 @@ package com.sebastiaanyn;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.sebastiaanyn.managers.SubscriptionManager;
+import com.sebastiaanyn.requesthandler.Handler;
 import com.sebastiaanyn.server.WebSocketServer;
 import com.sebastiaanyn.server.eventhandler.events.ChannelDeleteEvent;
 import com.sebastiaanyn.server.eventhandler.events.TextMessageEvent;
