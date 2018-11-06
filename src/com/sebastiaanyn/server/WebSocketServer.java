@@ -1,6 +1,6 @@
 package com.sebastiaanyn.server;
 
-import com.sebastiaanyn.server.eventhandler.EventHandler;
+import com.sebastiaanyn.eventhandler.EventHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelOption;

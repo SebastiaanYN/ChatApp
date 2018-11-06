@@ -2,19 +2,22 @@ package com.sebastiaanyn;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.sebastiaanyn.eventhandler.events.ChannelDeleteEvent;
+import com.sebastiaanyn.eventhandler.events.TextMessageEvent;
+import com.sebastiaanyn.managers.RedisManager;
 import com.sebastiaanyn.managers.SubscriptionManager;
 import com.sebastiaanyn.requesthandler.Handler;
 import com.sebastiaanyn.server.WebSocketServer;
-import com.sebastiaanyn.server.eventhandler.events.ChannelDeleteEvent;
-import com.sebastiaanyn.server.eventhandler.events.TextMessageEvent;
 import io.netty.channel.Channel;
 
 public class Main {
 
     public static void main(String[] args) {
-        WebSocketServer server = new WebSocketServer();
-        SubscriptionManager<Channel> channels = new SubscriptionManager<>();
+        RedisManager redis = new RedisManager("redisConfig.json");
+        SubscriptionManager<Channel> channels = new SubscriptionManager<>(redis);
         Handler handler = new Handler(channels);
+
+        WebSocketServer server = new WebSocketServer();
 
         server.on(TextMessageEvent.class, e -> {
             JsonElement json = new JsonParser().parse(e.frame.text());
@@ -38,7 +41,7 @@ public class Main {
 
                 case "typing_start":
                 case "typing_end":
-                    handler.handleTyping(e, json, type.getAsString());
+                    handler.handleTyping(json);
                     break;
             }
         });

@@ -1,4 +1,4 @@
-package com.sebastiaanyn.server.eventhandler;
+package com.sebastiaanyn.eventhandler;
 
 import java.util.function.Consumer;
 

@@ -1,8 +1,8 @@
 package com.sebastiaanyn.server;
 
-import com.sebastiaanyn.server.eventhandler.events.ChannelCreateEvent;
-import com.sebastiaanyn.server.eventhandler.events.ChannelDeleteEvent;
-import com.sebastiaanyn.server.eventhandler.events.TextMessageEvent;
+import com.sebastiaanyn.eventhandler.events.ChannelCreateEvent;
+import com.sebastiaanyn.eventhandler.events.ChannelDeleteEvent;
+import com.sebastiaanyn.eventhandler.events.TextMessageEvent;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;

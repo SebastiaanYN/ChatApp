@@ -1,4 +1,4 @@
-package com.sebastiaanyn.server.eventhandler;
+package com.sebastiaanyn.eventhandler;
 
 /**
  * Represents an event

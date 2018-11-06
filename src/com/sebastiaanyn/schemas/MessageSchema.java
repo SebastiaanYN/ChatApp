@@ -4,5 +4,5 @@ public class MessageSchema {
     public String type;
     public String content;
     public String author;
-    public long id;
+    public String id;
 }

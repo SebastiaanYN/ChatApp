@@ -11,5 +11,6 @@
     <orderEntry type="library" name="io.netty:netty-all:4.1.31.Final" level="project" />
     <orderEntry type="library" name="com.google.guava:guava:26.0-jre" level="project" />
     <orderEntry type="library" name="com.google.code.gson:gson:2.8.5" level="project" />
+    <orderEntry type="library" name="org.redisson:redisson:3.9.0" level="project" />
   </component>
 </module>

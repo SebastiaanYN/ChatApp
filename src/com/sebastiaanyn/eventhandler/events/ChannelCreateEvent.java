@@ -1,6 +1,6 @@
-package com.sebastiaanyn.server.eventhandler.events;
+package com.sebastiaanyn.eventhandler.events;
 
-import com.sebastiaanyn.server.eventhandler.Event;
+import com.sebastiaanyn.eventhandler.Event;
 import io.netty.channel.ChannelHandlerContext;
 
 public class ChannelCreateEvent extends Event {

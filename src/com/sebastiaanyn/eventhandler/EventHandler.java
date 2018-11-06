@@ -1,4 +1,4 @@
-package com.sebastiaanyn.server.eventhandler;
+package com.sebastiaanyn.eventhandler;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;

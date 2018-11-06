@@ -80,12 +80,12 @@
 <input id="message-input" placeholder="Message" type="text">
 
 <script>
-    const channelId = 0;
+    const channelId = 12;
 
     let name;
     document.getElementById('username-input').addEventListener('keydown', event => {
         if (event.keyCode === 13) {
-            name = event.target.value;
+            name = Math.floor(Math.random() * 100).toString().padStart(3, '0') + event.target.value;
             document.getElementById('username').style.display = 'none';
             $input.focus();
         }
@@ -131,13 +131,14 @@
         }
     });
 
-    const typing = [];
+    let typing = [];
 
     function updateTyping() {
+        typing = typing.filter(user => user !== name);
         if (typing.length === 0) {
             $typing.innerHTML = '';
         } else {
-            $typing.innerHTML = `Typing: ${typing.join(', ')}`;
+            $typing.innerHTML = `Typing: ${typing.map(user => user.substr(3)).join(', ')}`;
         }
     }
 
@@ -149,17 +150,17 @@
         }));
 
         console.log(event);
-        createMessage('Connected');
+        createMessage('<span style="color:#F55">Update</span>', 'Connected');
     });
 
     ws.addEventListener('close', event => {
         console.log(event);
-        createMessage('Disconnected!');
+        createMessage('<span style="color:#F55">Update</span>', 'Disconnected!');
     });
 
     ws.addEventListener('error', event => {
         console.log(event);
-        createMessage('Error :/');
+        createMessage('<span style="color:#F55">Update</span>', 'Error :/');
     });
 
     ws.addEventListener('message', event => {
@@ -170,7 +171,7 @@
 
         switch (data.type.toLowerCase()) {
             case 'message':
-                createMessage(`${data.author}: ${data.content}`);
+                createMessage(data.author.substr(3), data.content);
                 break;
 
             case 'typing_start':
@@ -185,10 +186,10 @@
         }
     });
 
-    function createMessage(content) {
+    function createMessage(author, content) {
         const div = document.createElement('div');
         div.className = 'message';
-        div.innerHTML = content;
+        div.innerHTML = `${author}: ${content}`;
         $messages.appendChild(div);
     }
 </script>
